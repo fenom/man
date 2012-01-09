@@ -10,8 +10,9 @@ function __autoload($class)
 $controller=strtok($_SERVER["REQUEST_URI"],"/")?:"home";
 $action=strtok("/")?:"index";
 call_user_func(array("controller_$controller","action_$action"));
-$head=file_get_contents("../view/head.php");
-$header=file_get_contents("../view/header.php");
-$content=file_get_contents("../view/$controller/$action.php");
-$footer=file_get_contents("../view/footer.php");
+ob_start();
+foreach(scandir("../view")as$view)
+	is_file("../view/$view")and(include"../view/$view")and${strtok($view,".")}=ob_get_contents()and ob_clean();
+include"../view/$controller/$action.php";
+$content=ob_get_clean();
 include"view/layout.php";
