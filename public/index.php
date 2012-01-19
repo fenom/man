@@ -3,6 +3,10 @@ $_SERVER["REQUEST_URI"]==strtok($_SERVER["REQUEST_URI"],"ABCDEFGHIJKLMNOPQRSTUVW
 session_start();
 date_default_timezone_set("UTC");
 set_include_path("..".PATH_SEPARATOR.get_include_path());
+const dsn="mysql:";
+const dsu=null;
+const dsp=null;
+const dso=null;
 function __autoload($class)
 {
 	require_once str_replace("_","/",$class).".php";
