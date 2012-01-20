@@ -1,5 +1,5 @@
 <?php
-$_SERVER["REQUEST_URI"]==strtok($_SERVER["REQUEST_URI"],"ABCDEFGHIJKLMNOPQRSTUVWXYZ")or header("location:".strtolower($_SERVER["REQUEST_URI"]));
+$_SERVER["REQUEST_URI"]==strtok($_SERVER["REQUEST_URI"],"ABCDEFGHIJKLMNOPQRSTUVWXYZ")or header("location:".strtolower($_SERVER["REQUEST_URI"]))or exit;
 session_start();
 date_default_timezone_set("UTC");
 set_include_path("..".PATH_SEPARATOR.get_include_path());
