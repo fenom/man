@@ -5,4 +5,12 @@ class model extends PDO
 	{
 		parent::__construct($dsn,$dsu,$dsp,$dso);
 	}
+	function quote($data)
+	{
+		if(is_scalar($data))
+			return parent::quote($data);
+		foreach($data as&$value)
+			$value=parent::quote($value);
+		return$data;
+	}
 }
