@@ -1,5 +1,5 @@
 <?php
-$_SERVER["REQUEST_URI"]==strtok($_SERVER["REQUEST_URI"],"ABCDEFGHIJKLMNOPQRSTUVWXYZ")or header("location:".strtolower($_SERVER["REQUEST_URI"]))or exit;
+$_SERVER["PATH_INFO"]==strtok($_SERVER["PATH_INFO"],"ABCDEFGHIJKLMNOPQRSTUVWXYZ")or header("location:".strtolower($_SERVER["PATH_INFO"])."?".$_SERVER["REDIRECT_QUERY_STRING"])or exit;
 session_start();
 date_default_timezone_set("UTC");
 set_include_path("..".PATH_SEPARATOR.get_include_path());
@@ -11,7 +11,7 @@ function __autoload($class)
 {
 	require_once str_replace("_","/",$class).".php";
 }
-$controller=strtok($_SERVER["REQUEST_URI"],"/")?:"home";
+$controller=strtok($_SERVER["PATH_INFO"],"/")?:"home";
 $action=strtok("/")?:"index";
 call_user_func(array("controller_$controller","action_$action"));
 ob_start();
