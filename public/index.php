@@ -13,10 +13,10 @@ function __autoload($class)
 }
 $controller=strtok($_SERVER["PATH_INFO"],"/");
 $action=strtok("/")?:"index";
-call_user_func(array("controller".($controller?"_$controller":""),"action_$action"));
+$view=call_user_func(array("controller".($controller?"_$controller":""),"action_$action"))?:($controller?"$controller/":"")."$action";
 ob_start();
-foreach(scandir("../view")as$view)
-	is_file("../view/$view")and(include"view/$view")and${strtok($view,".")}=ob_get_contents()and ob_clean();
-include"view/".($controller?"$controller/":"")."$action.php";
+foreach(scandir("../element")as$element)
+	is_file("../element/$element")and(include"element/$element")and${strtok($element,".")}=ob_get_contents()and ob_clean();
+include"view/$view.php";
 $content=ob_get_clean();
 include"index.php";
