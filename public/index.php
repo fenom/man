@@ -11,12 +11,14 @@ function __autoload($class)
 {
 	require_once str_replace("_","/",$class).".php";
 }
-$controller=strtok($_SERVER["PATH_INFO"],"/");
+$controller=strtok($_SERVER["PATH_INFO"],"/")?:"home";
 $action=strtok("/")?:"index";
-$view=call_user_func(array("controller".($controller?"_$controller":""),"action_$action"))?:($controller?"$controller/":"")."$action";
+$return=call_user_func(array("controller_$controller","action_$action"));
+$view=$return["view"]?:"$controller/$action";
+$layout=$return["layout"]?:$controller;
 ob_start();
 foreach(scandir("../element")as$element)
 	is_file("../element/$element")and(include"element/$element")and${strtok($element,".")}=ob_get_contents()and ob_clean();
 include"view/$view.php";
 $content=ob_get_clean();
-include"index.php";
+include"layout/$layout.php";
