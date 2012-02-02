@@ -1,5 +1,5 @@
 <?php
-$_SERVER["PATH_INFO"]==strtok($_SERVER["PATH_INFO"],"ABCDEFGHIJKLMNOPQRSTUVWXYZ")or header("location:".strtolower($_SERVER["PATH_INFO"])."?".$_SERVER["REDIRECT_QUERY_STRING"])or exit;
+$_SERVER["PATH_INFO"]==strtok($_SERVER["PATH_INFO"],"ABCDEFGHIJKLMNOPQRSTUVWXYZ")or header("location:".strtolower($_SERVER["PATH_INFO"]).($_SERVER["REDIRECT_QUERY_STRING"]?"?".$_SERVER["REDIRECT_QUERY_STRING"]:""))or exit;
 session_start();
 date_default_timezone_set("UTC");
 set_include_path("..".PATH_SEPARATOR.get_include_path());
