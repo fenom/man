@@ -15,7 +15,7 @@ function __autoload($class)
 $model=new model();
 $controller=isset($_SERVER["PATH_INFO"])&&strtok($_SERVER["PATH_INFO"],"/")?:"home";
 $action=strtok("/")?:"index";
-call_user_func(array("controller\\$controller","before"));
+call_user_func("controller\\$controller::before");
 $return=call_user_func("controller\\$controller::$action");
 $view=$return["view"]?:"$controller/$action";
 $layout=$return["layout"]?:$controller;
