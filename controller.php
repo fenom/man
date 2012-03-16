@@ -1,7 +1,15 @@
 <?php
 class controller
 {
-	function action_index()
+	static function before()
+	{
+		
+	}
+	static function index()
+	{
+		
+	}
+	static function after()
 	{
 		
 	}

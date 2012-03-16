@@ -5,7 +5,7 @@ class model extends PDO
 	{
 		parent::__construct($dsn,$dsu,$dsp,$dso);
 	}
-	function quote($data)
+	function quote($data,$paramtype=null)
 	{
 		if(is_scalar($data))
 			return parent::quote($data);

@@ -1,5 +1,6 @@
 <?php
-class controller_home extends controller
+namespace controller;
+class home extends\controller
 {
 	
 }
