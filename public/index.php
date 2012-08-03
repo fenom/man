@@ -1,4 +1,5 @@
 <?php
+$start=explode(" ",microtime());
 isset($_SERVER["PATH_INFO"])and$_SERVER["PATH_INFO"]=="/favicon.ico"and exit;
 !isset($_SERVER["PATH_INFO"])or$_SERVER["PATH_INFO"]==strtok($_SERVER["PATH_INFO"],"ABCDEFGHIJKLMNOPQRSTUVWXYZ")or header("location:".strtolower($_SERVER["PATH_INFO"]).($_SERVER["REDIRECT_QUERY_STRING"]?"?".$_SERVER["REDIRECT_QUERY_STRING"]:""))or exit;
 session_start();
@@ -26,3 +27,4 @@ foreach(scandir("../element")as$element)
 include"view/$view.php";
 $content=ob_get_clean();
 include"layout/".(is_file("../layout/$layout.php")?$layout:"home").".php";
+$stop=explode(" ",microtime());
