@@ -3,5 +3,5 @@
 <?=htmlspecialchars($data["man"])?>
 		</pre>
 		<?php foreach($data["pages"]as$cmd):?>
-	<a href=?q=<?=$cmd?>><?=$cmd?></a>
+	<a href=/<?=$cmd?>><?=$cmd?></a>
 		<?php endforeach;?>

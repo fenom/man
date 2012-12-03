@@ -11,13 +11,27 @@ const dsp=null;
 const dso=null;
 function __autoload($class)
 {
-	require_once str_replace("\\","/",$class).".php";
+	if(file_exists("../".str_replace("\\","/",$class).".php"))
+		require_once str_replace("\\","/",$class).".php";
+	else
+		throw new Exception();
 }
 $model=new model();
-$controller=isset($_SERVER["PATH_INFO"])&&strtok($_SERVER["PATH_INFO"],"/")?:"home";
+$controller=strtok($_SERVER["PATH_INFO"],"/")?:"home";
 $action=strtok("/")?:"index";
-call_user_func("controller\\$controller::before");
-$return=call_user_func("controller\\$controller::$action");
+try
+{
+	call_user_func("controller\\$controller::before");
+	$return=call_user_func("controller\\$controller::$action");
+}
+catch(Exception$ex)
+{
+	$_REQUEST["q"]=$controller;
+	$controller="home";
+	$action="index";
+	call_user_func("controller\\$controller::before");
+	$return=call_user_func_array("controller\\$controller::$action",$_REQUEST);
+}
 $view=$return["view"]?:"$controller/$action";
 $layout=$return["layout"]?:$controller;
 $data=$return["data"];
