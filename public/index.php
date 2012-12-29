@@ -18,13 +18,13 @@ $controller=isset($_SERVER["PATH_INFO"])&&strtok($_SERVER["PATH_INFO"],"/")?:"ho
 $action=strtok("/")?:"index";
 call_user_func("controller\\$controller::before");
 $return=call_user_func("controller\\$controller::$action");
-$view=$return["view"]?:"$controller/$action";
+$content=$return["content"]?:"$controller/$action";
 $layout=$return["layout"]?:$controller;
 $data=$return["data"];
 ob_start();
-foreach(scandir("../element")as$element)
-	is_file("../element/$element")and(include"element/$element")and${strtok($element,".")}=ob_get_contents()and ob_clean();
-include"view/$view.php";
+foreach(scandir("../view/partial/$controller")as$partial)
+	is_file("../view/partial/$controller/$partial")and(include"view/partial/$controller/$partial")and${strtok($partial,".")}=ob_get_contents()and ob_clean();
+include"view/content/$content.php";
 $content=ob_get_clean();
-include"layout/".(is_file("../layout/$layout.php")?$layout:"home").".php";
+include"view/layout/".(is_file("../view/layout/$layout.php")?$layout:$controller).".php";
 $stop=explode(" ",microtime());
