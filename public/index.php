@@ -14,13 +14,13 @@ function __autoload($class)
 	require_once str_replace("\\","/",$class).".php";
 }
 $model=new model();
-$controller=isset($_SERVER["PATH_INFO"])&&strtok($_SERVER["PATH_INFO"],"/")?:"home";
+$controller=isset($_SERVER["PATH_INFO"])?strtok($_SERVER["PATH_INFO"],"/"):"home";
 $action=strtok("/")?:"index";
 call_user_func("controller\\$controller::before");
 $return=call_user_func("controller\\$controller::$action");
-$content=$return["content"]?:"$controller/$action";
-$layout=$return["layout"]?:$controller;
-$data=$return["data"];
+$content=isset($return["content"])?$return["content"]:"$controller/$action";
+$layout=isset($return["layout"])?$return["layout"]:$controller;
+$data=isset($return["data"])?$return["data"]:array();
 ob_start();
 foreach(scandir("../view/partial/$controller")as$partial)
 	is_file("../view/partial/$controller/$partial")and(include"view/partial/$controller/$partial")and${strtok($partial,".")}=ob_get_contents()and ob_clean();
