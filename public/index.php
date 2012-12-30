@@ -13,18 +13,16 @@ function __autoload($class)
 {
 	if(file_exists("../".str_replace("\\","/",$class).".php"))
 		require_once str_replace("\\","/",$class).".php";
-	else
-		throw new Exception();
 }
 $model=new model();
-$controller=strtok($_SERVER["PATH_INFO"],"/")?:"home";
+$controller=isset($_SERVER["PATH_INFO"])?strtok($_SERVER["PATH_INFO"],"/"):"home";
 $action=strtok("/")?:"index";
-try
+if(class_exists("controller\\$controller"))
 {
 	call_user_func("controller\\$controller::before");
 	$return=call_user_func("controller\\$controller::$action");
 }
-catch(Exception$ex)
+else
 {
 	$_REQUEST["q"]=$controller;
 	$controller="home";
@@ -32,13 +30,13 @@ catch(Exception$ex)
 	call_user_func("controller\\$controller::before");
 	$return=call_user_func_array("controller\\$controller::$action",$_REQUEST);
 }
-$view=$return["view"]?:"$controller/$action";
-$layout=$return["layout"]?:$controller;
-$data=$return["data"];
+$content=isset($return["content"])?$return["content"]:"$controller/$action";
+$layout=isset($return["layout"])?$return["layout"]:$controller;
+$data=isset($return["data"])?$return["data"]:array();
 ob_start();
-foreach(scandir("../element")as$element)
-	is_file("../element/$element")and(include"element/$element")and${strtok($element,".")}=ob_get_contents()and ob_clean();
-include"view/$view.php";
+foreach(scandir("../view/partial/$controller")as$partial)
+	is_file("../view/partial/$controller/$partial")and(include"view/partial/$controller/$partial")and${strtok($partial,".")}=ob_get_contents()and ob_clean();
+include"view/content/$content.php";
 $content=ob_get_clean();
-include"layout/".(is_file("../layout/$layout.php")?$layout:"home").".php";
+include"view/layout/".(is_file("../view/layout/$layout.php")?$layout:$controller).".php";
 $stop=explode(" ",microtime());
