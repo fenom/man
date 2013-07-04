@@ -2,6 +2,6 @@
 		<pre>
 <?=htmlspecialchars($data["man"])?>
 		</pre>
-		<?php foreach($data["pages"]as$cmd):?>
-	<a href=/<?=$cmd?>><?=$cmd?></a>
-		<?php endforeach;?>
+<?php foreach($data["pages"]as$cmd):?>
+		<a href=/<?=$cmd?>><?=$cmd?></a>
+<?php endforeach;?>
